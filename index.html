@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Play sweet lightsaber sounds with your keyboard to channel your inner Vader">
+    <meta name="authot" content="Jamie Maguire">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saber Pad</title>
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+    <header class="disclaimer">
+        <h2 class="disclaimer__header">None of these sounds or images belong to me. :)</h1>
+    </header>
+
+<!-- Keys to be pressed for audio -->
+    <div class="keys">
+        <div class="keys">
+          <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">Ignite <br> (Heavy)</span>
+          </div>
+          <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">Ignite <br> (Light)</span>
+          </div>
+          <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">Clash <br> (Single)</span>
+          </div>
+          <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">Clash <br> (Quadruple)</span>
+          </div>
+          <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">Swing <br> (Double)</span>
+          </div>
+          <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">Twirl <br> (Single)</span>
+          </div>
+          <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">Off <br> (Heavy)</span>
+          </div>
+          <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">Off <br> (Light)</span>
+          </div>
+          <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">Wilhelm </span>
+          </div>
+        </div>
+    </div>
+
+
+
+<!-- Audio files -->
+    <audio data-key="65" src="assets/sounds/igniteHeavy.mp3"></audio>
+    <audio data-key="83" src="assets/sounds/igniteLight.wav"></audio>
+    <audio data-key="68" src="assets/sounds/clash.wav"></audio>
+    <audio data-key="70" src="assets/sounds/quadClash.wav"></audio>
+    <audio data-key="71" src="assets/sounds/dblSwing.wav"></audio>
+    <audio data-key="72" src="assets/sounds/twirl.wav"></audio>
+    <audio data-key="74" src="assets/sounds/saberOffRen.wav"></audio>
+    <audio data-key="75" src="assets/sounds/saberOff.wav"></audio>
+    <audio data-key="76" src="assets/sounds/scream.wav"></audio>
+
+<!-- JavaScript handles event listeners, transitions and callbacks -->
+    <script>
+
+        function playSound(e){
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if(!audio) return; // stop function from running all together
+            audio.currentTime = 0; // rewind to start
+            audio.play();
+            key.classList.add('playing');
+        }
+
+        function removeTransition(e){
+            if(e.propertyName !== 'transform') return; // skip if it's not a transform
+            this.classList.remove('playing');
+        }
+
+        const keys = document.querySelectorAll('.key');
+
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+        window.addEventListener('keydown', playSound);
+    </script>
+
+
+</body>
+</html>
